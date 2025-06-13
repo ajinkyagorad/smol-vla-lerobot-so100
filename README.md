@@ -48,6 +48,16 @@ ls lerobot/
 
 ---
 
+### 5. Eval smolvla policy with language command
+```bash
+python -m lerobot.record   --robot.type=so100_follower   --robot.port=/dev/tty_left_follower   --robot.id=blue   --robot.cameras='{
+    "top": {"type": "opencv", "index_or_path": 0, "fps": 30, "width": 640, "height": 360},
+    "gripper": {"type": "opencv", "index_or_path": 2, "fps": 30, "width": 640, "height": 360}
+  }'   --policy.path=/home/ajinkya/Desktop/Robot/smolvla/lerobot/outputs/train/2025-06-09/13-58-02_smolvla/checkpoints/last/pretrained_model/   --dataset.repo_id=ajinkya/eval_smolvla-local-test   --dataset.num_episodes=3   --dataset.single_task="Grab the green wire and put in yellow basket"   --dataset.video=true   --display_data=true
+
+```
+
+
 ## Notes
 - The main data collection and policy execution commands (`python -m lerobot.record ...`) require correct CUDA/GPU setup and may fail if the environment is not properly configured.
 - For calibration, ensure you provide either `--robot.*` or `--teleop.*` arguments, but not both.

@@ -62,3 +62,49 @@ python -m lerobot.record   --robot.type=so100_follower   --robot.port=/dev/tty_l
 - The main data collection and policy execution commands (`python -m lerobot.record ...`) require correct CUDA/GPU setup and may fail if the environment is not properly configured.
 - For calibration, ensure you provide either `--robot.*` or `--teleop.*` arguments, but not both.
 - If you encounter errors, check the troubleshooting section or reach out for help. 
+
+
+
+# 🤖 LeRobot SmolVLA Pipeline: LEGO Pick & Place with SO100 Robot
+
+This repository documents a complete workflow using the `lerobot` library to train and evaluate robot policies using imitation learning. The task involves **picking a yellow LEGO cube** and **placing it inside a white LEGO frame** using the **SO100 follower robot**.
+
+---
+
+## 📌 Task
+
+**Action**: `Pick the yellow LEGO cube and place it inside the white LEGO frame`  
+**Robot**: `SO100`  
+**Camera Views**: `top`, `gripper`  
+**Control**: Human via SO100 teleoperation
+
+---
+
+## 🧭 Naming Convention
+
+| Element        | Format                                    | Example                                      |
+|----------------|-------------------------------------------|----------------------------------------------|
+| Task Name      | `verb_object_target`                      | `lego_pick_place`                            |
+| Robot Type     | `so100`                                   | `so100`                                      |
+| HF Username    | your HF handle                            | `triton7777`                                 |
+| Data Purpose   | `teleop_train`, `policy_eval`             | `lego_pick_place_so100_teleop_train`         |
+| Model Name     | `task_robot_smolvla`                      | `lego_pick_place_so100_smolvla`              |
+
+---
+
+## 🔧 Teleoperate Robot (Only Signals, No Save)
+
+```bash
+python -m lerobot.teleoperate \
+  --robot.type=so100_follower \
+  --robot.port=/dev/tty_left_follower \
+  --robot.id=blue \
+  --teleop.type=so100_leader \
+  --teleop.port=/dev/tty_left_leader \
+  --teleop.id=yellow \
+  --robot.cameras='{
+    "top": {"type": "opencv", "index_or_path": 0, "fps": 30, "width": 640, "height": 360},
+    "gripper": {"type": "opencv", "index_or_path": 2, "fps": 30, "width": 640, "height": 360}
+  }' \
+  --display_data=true
+
